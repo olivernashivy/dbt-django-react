@@ -1,0 +1,6 @@
+#!/bin/bash
+set -x
+
+./manage.py search_index --create
+./manage.py generate_data
+./manage.py set_default_site --name=constructionbevy --domain=$HEROKU_APP_NAME.herokuapp.com

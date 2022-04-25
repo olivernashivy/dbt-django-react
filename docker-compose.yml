@@ -1,0 +1,95 @@
+version: "3.4"
+
+
+# NOTE: This _has _to start with `x-`
+x-logging: &default-logging
+  options:
+    max-size: "20k"
+    max-file: "10"
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    command: gunicorn wsgi:application -b :8000 -b :80 --reload
+    environment:
+      # To make things play nice with dj-database-url
+      - DATABASE_URL=postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+    env_file: .env
+    volumes:
+      - ./src/backend:/app
+      - ./src/frontend/build:/frontend:cached
+    ports:
+      - 8000:8000
+      - 80:80
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    logging: *default-logging
+
+  db:
+    image: circleci/postgres:alpine-postgis-ram
+    env_file: .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - myapp:/var/lib/postgresql/data:delegated
+    logging: *default-logging
+
+  builder:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    command: npm run dev
+    env_file: .env
+    environment:
+      - HOST=0.0.0.0
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src/frontend:/app:cached
+      # This _deletes_ the node_modules/ host volume folder in docker, so it uses the docker image
+      # node_modules/ -- if you modify yarn.lock you'll need to build the docker image again.
+      - /app/node_modules
+    depends_on:
+      - django
+    logging: *default-logging
+
+  elasticsearch:
+    image: elasticsearch:7.12.1
+    ports:
+      - 9200:9200
+#    expose:
+#      - 9500
+    volumes:
+      - ./var/elasticsearch:/usr/share/elasticsearch/data
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    restart: unless-stopped
+    env_file: .env
+    logging: *default-logging
+
+volumes:
+    myapp:
+
+# TODO: Make this second ES container work alongside the original container ...
+#  # test elasticsearch container with constrained memory
+#  elasticsearch_test:
+#    image: elasticsearch:7.12.1
+##    command: eswapper
+#    ports:
+#      - 9600:9300
+#    expose:
+#      - 9600
+#    environment:
+#      - xpack.security.enabled=false
+#      - discovery.type=single-node
+#    restart: unless-stopped
+#    env_file: .env
+#    logging: *default-logging
