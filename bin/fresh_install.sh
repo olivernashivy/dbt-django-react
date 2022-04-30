@@ -5,11 +5,11 @@ cp -n .env_sample .env || echo ".env already exists"
 echo "Make sure you add this hostname to ALLOWED_HOSTS in .env"
 
 # Create githooks in project, warns us about requirements/migrations changes
-./bin/create_git_hooks.sh
+# ./bin/create_git_hooks.sh
 
-ln -sf dbtscheduler/manage.py .
-ln -sf dbtscheduler/package.json .
-ln -sf dbtscheduler/yarn.lock .
+ln -sf src/backend/manage.py .
+ln -sf src/frontend/package.json .
+ln -sf src/frontend/yarn.lock .
 
 # first deploy
 ./bin/deploy.sh
@@ -21,7 +21,7 @@ read HOSTNAME
 docker-compose exec django ./manage.py set_default_site --name=$HOSTNAME --domain=$HOSTNAME
 
 # generate data (creates default admin account)
-docker-compose exec django ./manage.py generate_data
+# docker-compose exec django ./manage.py generate_data
 
 # Restart to make sure things are started properly (i.e. vuetify on first install)
 docker-compose restart

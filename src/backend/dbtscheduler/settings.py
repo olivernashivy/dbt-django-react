@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
+    'schedules',
 ]
 
 MIDDLEWARE = [
@@ -126,12 +128,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Async Tasks
 # =============================================================================
 USE_CELERY_QUEUE = True
-CELERY_BROKER_URL = os.environ.get("REDIS_URL") or "http://localhost:6379"
-CELERY_RESULT_BACKEND =  os.environ.get("REDIS_URL") or "http://localhost:6379"
-CELERY_BROKER_POOL_LIMIT = 6
+# CELERY_BROKER_URL = "http://localhost:6379"
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_BROKER_POOL_LIMIT = 100
 CELERY_BROKER_CONNECTION_TIMEOUT = 1000
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_SEND_TASK_ERROR_EMAILS = False
-CELERY_TASK_RESULT_EXPIRES = 1000
 CELERY_TIMEZONE = 'UTC'

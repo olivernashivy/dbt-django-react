@@ -60,36 +60,5 @@ services:
       - django
     logging: *default-logging
 
-  elasticsearch:
-    image: elasticsearch:7.12.1
-    ports:
-      - 9200:9200
-#    expose:
-#      - 9500
-    volumes:
-      - ./var/elasticsearch:/usr/share/elasticsearch/data
-    environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-    restart: unless-stopped
-    env_file: .env
-    logging: *default-logging
-
 volumes:
     myapp:
-
-# TODO: Make this second ES container work alongside the original container ...
-#  # test elasticsearch container with constrained memory
-#  elasticsearch_test:
-#    image: elasticsearch:7.12.1
-##    command: eswapper
-#    ports:
-#      - 9600:9300
-#    expose:
-#      - 9600
-#    environment:
-#      - xpack.security.enabled=false
-#      - discovery.type=single-node
-#    restart: unless-stopped
-#    env_file: .env
-#    logging: *default-logging
