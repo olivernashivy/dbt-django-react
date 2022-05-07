@@ -1,7 +1,7 @@
-from .models import ScheduleCommand
+from .models import ScheduleCommand, Periodictasks, ClockedTask, interval
 # import serializers
 from rest_framework import serializers
-from django_celery_beat.models import PeriodicTask
+
 
 class ScheduleCommandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,6 +11,17 @@ class ScheduleCommandSerializer(serializers.ModelSerializer):
 # django celery beat periodic tasks serializer
 class Periodictasksserializer(serializers.ModelSerializer):
     class Meta:
-        model = PeriodicTask
+        model = Periodictasks
+        fields = ('id','name','command','interval','status')
+
+
+class ClockedTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClockedTask
         fields = '__all__'
 
+
+class IntervalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = interval
+        fields = '__all__'

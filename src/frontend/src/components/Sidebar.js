@@ -1,12 +1,7 @@
-import './App.css';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import Home from './components/Home';
-function App() {
+import React from 'react'
+
+function Sidebar() {
   return (
-    <div className="App">
-       <div className="container-fluid">
-    <div className="row">
-        <div className="col-sm-auto bg-primary sticky-top">
             <div className="d-flex flex-sm-column flex-row flex-nowrap bg-light align-items-center sticky-top">
                 <a href="/" className="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
                 <i className="bi-house fs-1"></i>
@@ -39,21 +34,7 @@ function App() {
                     </ul>
                 </div>
             </div>
-        </div>
-        <div className="col-sm p-3 min-vh-100">
-        <Router>
-        <Routes>
-          <Route exact path="/" element={<Home/>} />
-
-          </Routes>
-          </Router>
-        </div>
-    </div>
-</div>
-  
-       
-    </div>
-  );
+        
+  )
 }
-
-export default App;
+export default  Sidebar
