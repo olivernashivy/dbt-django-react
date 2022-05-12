@@ -21,11 +21,7 @@ def auto_create_periodic_task(sender, instance, created, **kwargs):
     else: 
         instance.setup_task()
       
-    
-@receiver(post_save, sender=ScheduleCommand)
 
-    
-  
 
 @receiver(post_save, sender=ClockedTask)
 def auto_create_clocked_task(sender, instance, created, **kwargs):
