@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Moment from 'react-moment';
 function Detail() {
-   const baseUrl = 'http://localhost:8000'
+  const baseUrl = process.env.REACT_APP_BASE_URL
    const [commands, setcommands] = useState([])
     const navigate = useNavigate();
     const location = useLocation();
@@ -57,7 +57,7 @@ function Detail() {
       
   <div className="card-body ">
       <div className='d-flex justify-content-around p-3 align-items-center'>
-      <h5 className="card-title">{loc.name} </h5>
+      <h5 className="card-title fst-italic ml-3">{loc.name} </h5>
     <button className="btn btn-dark" onClick={() => navigate(-1)}>Go back</button>
       </div>
     <div>
@@ -78,30 +78,41 @@ function Detail() {
    </div>
     <div className='d-flex justify-content-around p-3'>
 <div className="card border-primary mb-3" >
-  {loc.command&& loc.command.map((command, index) => {
-    return (
-      <div key={index}>
-        <div className="card-header">Command {index + 1}</div>
-  
-  <div className="card-body text-success">
-  <ul className="list-group list-group-flush">
-   <li className="list-group-item">Name:{command.name}</li>
-   
-   <li className="list-group-item">Command:{command.command}</li>
-   <p>{command.description}</p>
-   
+  {/* filter commands for each available loc.command */}
+  <div className="card-header">Available commands</div>
+  <div className="card-body">
+    <ul className="list-group">
+      {loc.command.map((comm, index) => {
+        return (
+          <div key={index}>
+            {commands.map((command, index) => {
+              if (command.id === comm) {
+                return (
+                  <div key={index}>
+                  <li className="list-group-item">
+                    Name: {command.name}
+                  </li>
+                  <li className="list-group-item">
+                  Command: {command.command}
+                </li>
+                <p>{command.description}</p>
+                </div>
+                )
+              }
+            })}
+      
+            </div>
+        )
+      })}
 
-  
-   </ul>
+    </ul>
   </div>
-    </div>
-)  
-})}  
+ 
     
     </div> </div>
   <div className="card-body">
-    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" className="card-link">Edit </a>
-    <a onClick={ () =>deletelocation(loc.id)} href="#" className="card-link">Delete </a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" className="card-link btn btn-dark btn-sm">Edit </a>
+    <a onClick={ () =>deletelocation(loc.id)} href="#" className="card-link text-danger btn btn-outline-danger btn-sm">Delete </a>
   </div>
  
 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Moment from 'react-moment';
 function Detail() {
-   const baseUrl = 'http://localhost:8000'
+  const baseUrl = process.env.REACT_APP_BASE_URL
     const navigate = useNavigate();
     const location = useLocation();
     const loc = location.state.period 
@@ -44,7 +44,7 @@ function Detail() {
       
   <div className="card-body ">
       <div className='d-flex justify-content-around p-3 align-items-center'>
-      <h5 className="card-title">{loc.name} </h5>
+      <h5 className="card-title fst-italic ml-3">{loc.name} </h5>
     <button className="btn btn-dark" onClick={() => navigate(-1)}>Go back</button>
       </div>
     <div>
@@ -64,7 +64,7 @@ function Detail() {
      </div>
    </div>
     <div className='d-flex justify-content-around p-3'>
-<div className="card border-primary mb-3" >
+<div className="card border-info mb-3" >
   <div className="card-header">Command</div>
   
   <div className="card-body text-success">
@@ -79,7 +79,7 @@ function Detail() {
    </ul>
   </div>
     </div>
-    <div className="card border-primary mb-3" >
+    <div className="card border-info mb-3" >
   <div className="card-header">IntervaL</div>
   
   <div className="card-body text-success">
@@ -95,8 +95,8 @@ function Detail() {
     
   </div>
   <div className="card-body">
-    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" className="card-link">Edit </a>
-    <a onClick={ () =>deletelocation(loc.id)} href="#" className="card-link">Delete </a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" className="card-link btn btn-dark btn-sm">Edit </a>
+    <a onClick={ () =>deletelocation(loc.id)} href="#" className="card-link text-danger btn btn-outline-danger btn-sm">Delete </a>
   </div>
  
 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -124,7 +124,7 @@ function Detail() {
             </select>
             <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" className="btn btn-primary">Save changes</button>
+        <button type="submit" className="btn btn-dark">Save changes</button>
       </div>
           </form>
       </div>

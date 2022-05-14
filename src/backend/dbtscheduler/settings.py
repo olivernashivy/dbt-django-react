@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'schedules',
     'rest_framework',
+    'rest_framework.authtoken',
     "corsheaders",
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # =============================================================================
 USE_CELERY_QUEUE = True
 # CELERY_BROKER_URL = "http://localhost:6379"
+CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_BROKER_POOL_LIMIT = 100
 CELERY_BROKER_CONNECTION_TIMEOUT = 1000
@@ -158,3 +161,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+DJOSER = {
+    "USER_ID_FIELD": "email"
+}

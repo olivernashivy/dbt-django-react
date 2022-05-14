@@ -17,6 +17,8 @@ class PeriodictasksViewsets(viewsets.ModelViewSet):
     serializer_class = Periodictasksserializer
     permission_classes = [permissions.AllowAny]
 
+  
+
 
 class ClockedTaskViewsets(viewsets.ModelViewSet):
     queryset = ClockedTask.objects.all()

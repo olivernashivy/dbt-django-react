@@ -3,36 +3,44 @@ import Moment from 'react-moment';
 import {  
     useNavigate,
   } from "react-router-dom";
-function ClockedDetails({clocked}) {
+function ClockedDetails({clocked, index}) {
     const navigate = useNavigate();
     const todetails=()=>{
-        navigate(`clocked/${clocked.id}`,{state:{clocked}});
+        navigate(`/clocked/${clocked.id}`,{state:{clocked}});
         }
+    let description = clocked.description
+    //cut the text if its over 100 characters
+    if(description.length > 100){
+        description = description.substring(0,100) + '...'
+    }
+
   return (
     <div>
 
-        <ul className="list-group list-group-numbered">
-          <li className="list-group-item d-flex justify-content-between align-items-start m-1 shadow p-2">
-            <div className="ms-2 me-auto">
-              <div className="fw-bold"  onClick={()=>{todetails()}}>{clocked.name}</div>
-             {clocked.description}
+        <ol className=" container">
+          <li className=" row shadow p-2">
+            <div className="ms-2 col-md-5  ">
+              <div className="fw-bold d-flex justify-content-start gap-3"  onClick={()=>{todetails()}}><span class="badge bg-dark">{index+1}</span><span className='lead px-1 text-info'>{clocked.name}</span></div>
+           <div className='d-flex justify-content-start'>  <p className=''> {description}</p> </div>
             </div>
-            <div className="ms-2 me-auto">
-              <div className="fw-bold">Created: <Moment format="D MMM YYYY HH:mm" withTitle >{clocked.created_at}</Moment></div>
-             <div className="fw-bold">Updated: <Moment format="D MMM YYYY HH:mm" withTitle >{clocked.updated_at}</Moment></div>
+            <div className="ms-2 col align-items-start ">
+              <div className="fw-light">Created: <Moment format="D MMM YYYY HH:mm" withTitle >{clocked.created_at}</Moment></div>
              {clocked.timetorun > <Moment toNow ></Moment>?
              
-              <div className="fw-bold">Will run in <Moment date={clocked.timetorun} withTitle durationFromNow > </Moment></div>
+              <div className="fw-light"><i class="bi bi-arrow-bar-right"></i> Will run in  <Moment date={clocked.timetorun} withTitle durationFromNow > </Moment></div>
               :
-              <div className="fw-bold "><span className='text-danger'> Has run </span>
+              <div className="fw-light "><span className='text-danger'><i class=" bi-arrow-bar-right"></i> Has run </span>
               <span>on <Moment date={clocked.timetorun} withTitle > </Moment> </span>
               </div>}
             </div>
-            <span className="badge bg-primary rounded-pill">{clocked.command.length} Command</span>
+            <div className='col-md-2'>
+            <span className="badge bg-black rounded-pill fst-italic">{clocked.command.length} Command</span>
+            </div>
+           
           </li>
          
          
-        </ul>
+        </ol>
     </div>
   )
 }

@@ -9,7 +9,7 @@ echo "Make sure you add this hostname to ALLOWED_HOSTS in .env"
 
 ln -sf src/backend/manage.py .
 ln -sf src/frontend/package.json .
-ln -sf src/frontend/yarn.lock .
+
 
 # first deploy
 ./bin/deploy.sh

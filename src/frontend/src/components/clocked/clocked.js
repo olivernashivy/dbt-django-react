@@ -8,7 +8,7 @@ function Clocked({clock}) {
 
         return (
           <div  key={index}>
-            <ClockedDetails clocked={clocked} />
+            <ClockedDetails clocked={clocked} index={index}/>
           </div>
         )
       })}

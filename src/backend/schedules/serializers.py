@@ -19,20 +19,28 @@ class IntervalSerializer(serializers.ModelSerializer):
 #  periodic tasks serializer
 class Periodictasksserializer(serializers.ModelSerializer):
     # show all commands from many to many
-    command = ScheduleCommandSerializer()
-    interval = IntervalSerializer()
+    command = ScheduleCommandSerializer(required=False)
+    interval = IntervalSerializer(required=False)
     class Meta:
         model = Periodictasks
         fields = ('id','name','command','interval','status', 'description')
-    
+
+    def to_internal_value(self, data):
+        # get nested objects
+        command_data = data.pop('command')
+        interval_data = data.pop('interval')
+        # create new objects
+        command = ScheduleCommand(**command_data)
+        interva = interval(**interval_data)
+        # create new validated data
+        validated_data = super().to_internal_value(data)
+        validated_data['command'] = command
+        validated_data['interval'] = interva
+        return validated_data
+        
     def create(self, validated_data):
-        command_data = validated_data.pop('command')
-        interval_data = validated_data.pop('interval')
-        command = ScheduleCommand.objects.create(**command_data)
-        interval = interval.objects.create(**interval_data)
-        periodic_task = Periodictasks.objects.create(command=command, interval=interval, **validated_data)
-        return periodic_task
-    
+        print(validated_data)
+        return super().create(validated_data)
     def update(self, instance, validated_data):
         command_data = validated_data.pop('command')
         interval_data = validated_data.pop('interval')
@@ -57,7 +65,7 @@ class Periodictasksserializer(serializers.ModelSerializer):
 
 class ClockedTaskSerializer(serializers.ModelSerializer):
     #     # show all commands from many to many
-    command = ScheduleCommandSerializer(many=True)
+    # command = ScheduleCommandSerializer(many=True, required=False)
     class Meta:
         model = ClockedTask
         fields = ('id', 'name', 'description', 'command', 'timetorun','created_at','updated_at')
@@ -67,23 +75,3 @@ class ClockedTaskSerializer(serializers.ModelSerializer):
     #     fields = super().get_fields()
     #     fields['command'].read_only = True
     #     return fields
-    def create(self, validated_data):
-        command_data = validated_data.pop('command')
-        clocked_task = ClockedTask.objects.create(**validated_data)
-        for command in command_data:
-            clocked_task.command.add(command)
-        return clocked_task
-
-    def update(self, instance, validated_data):
-        command_data = validated_data.pop('command')
-        instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
-        instance.timetorun = validated_data.get('timetorun', instance.timetorun)
-        print("5555")
-        instance.command.clear()
-        for command in command_data:
-            print(command)
-            
-            instance.command.add(int(command))
-        instance.save()    
-        return instance

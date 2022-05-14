@@ -10,7 +10,7 @@ function Periodic({periods}) {
 
         return (
          <div  key={index}>
-           <PeriodicDetails period={period} />
+           <PeriodicDetails period={period} index={index}/>
          </div>
         )
       })}
