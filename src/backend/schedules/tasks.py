@@ -82,9 +82,11 @@ def run_periodic_task(periodic_task_id):
     # celery beat runs this task every minute
     # so we need to check if the time to run is now
     if periodic_task:
-        # get all commands from many to many
-        command_text = periodic_task.command.all()
+        # get all commands from foreign relation
+        command_text = periodic_task.command
+        command_task = periodic_task.task
         print('Running periodic task: ' + periodic_task.name)
+        print('Runnng command: ' + command_text.command)
         # get current path
         current_path = os.path.dirname(os.path.abspath(__file__))
         # goes back 4 folders
@@ -93,44 +95,12 @@ def run_periodic_task(periodic_task_id):
         path_dbt = os.path.join(path_dbt, 'jaffle_shop')
         try:
             # run command inside path_dbt
-            for command in command_text:
-                #os.system('cd ' + path_dbt + ' && ' + command.command)
-                print(command.command)
+            if command_task:
+                os.system('cd ' + path_dbt + ' && ' + command_text.command)
+                print(command_text)
                 print('Command executed successfully')
         except Exception as e:
             print(e)
             print('Error while running command')
-
-
-# run periodic tasks that repaet every time
-@shared_task
-def run_periodic_task_crontab(periodic_task_id):
-    # get periodic task from database
-    periodic_task = Periodictasks.objects.get(id=periodic_task_id)
-    # get foreign key from periodic task interval
-    interval = periodic_task.interval
-    # get crontab from interval
-    crontab_interval = interval.intervalperiods
-    period_interval = interval.numberofperioods
-    cron = crontab(minute='*/1'),
-    if crontab_interval == 'minutes':
-        cron = crontab(minute=f'*/{period_interval}'),
-    elif crontab_interval == 'hours':
-        cron = crontab(hour=f'*/{period_interval}'),
-    elif crontab_interval == 'days':
-        cron = crontab(day=f'*/{period_interval}'),
-    elif crontab_interval == 'weeks':
-        cron = crontab(day_of_week=f'*/{period_interval}'),
-    elif crontab_interval == 'months':
-        cron = crontab(day_of_month=f'*/{period_interval}'),
-        
-        # create beat schedule
-    app.conf.beat_schedule = {
-        periodic_task.name: {
-            'task': 'tasks.run_periodic_task',
-            'schedule': cron,
-            'args': (int(periodic_task.id),)
-        },
-    }
 
 

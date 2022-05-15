@@ -3,6 +3,8 @@ from django.utils import timezone
 from enumchoicefield import ChoiceEnum, EnumChoiceField
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 import json
+from celery import current_app
+
 # Create your models here.
 class ScheduleCommand(models.Model):
     name = models.CharField(max_length=100)
@@ -33,7 +35,28 @@ class interval(models.Model):
         return f'run every {self.numberofperioods} {self.intervalperiods}'
 
 
+class RegisteredTasks(models.Model):
+    celery_app = current_app
+    def populate_database_with_tasks(self):
+        # get all tasks
+        celery_app = current_app
+        tasks = list(sorted(name for name in celery_app.tasks
+                            if not name.startswith('celery.')))
+        
+        return tasks
+
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+   
+    def __call__(self):
+        return self.populate_database_with_tasks()
+
+        
+
+
 class Periodictasks(models.Model):
+    
     name = models.CharField(max_length=100)
     command = models.ForeignKey(ScheduleCommand, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
@@ -46,6 +69,8 @@ class Periodictasks(models.Model):
         null=True,
         blank=True
     )
+    # get the field task_registered = models.ForeignKey(PeriodicTaskTask'], on_delete=models.CASCADE, null=True, blank=True)
+
     status = models.CharField(max_length=100, choices=(('active', 'active'), ('inactive', 'inactive')), default='active')
 
     def __str__(self):
@@ -67,9 +92,12 @@ class Periodictasks(models.Model):
             task=self.command.command,
             interval=interval,
             enabled=enabletask,
+            description=self.description,
+           # task.task="schedules.tasks.run_task",
             args=json.dumps([self.id]),
             start_time=timezone.now()
         )
+        self.task.task = "schedules.tasks.run_periodic_task"
         self.save()
     
     def disable_task(self):

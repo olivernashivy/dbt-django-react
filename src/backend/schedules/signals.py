@@ -3,8 +3,7 @@ from django.db.models.signals import post_save
 import datetime
 from .models import Periodictasks, ScheduleCommand, ClockedTask
 from django.contrib.auth import get_user_model
-from .enum import TimeInterval, SetupStatus
-from schedules.tasks import run_periodic_task, run_clocked_task, run_periodic_task_crontab
+from schedules.tasks import  run_clocked_task, run_periodic_task
 User = get_user_model()
 users = User.objects.all()
 
@@ -15,6 +14,7 @@ def auto_create_periodic_task(sender, instance, created, **kwargs):
     if instance.task is not None:
         if instance.status == "active":
             instance.enable_task()
+            # run_periodic_task(instance.id)
         else:
             instance.disable_task()
 

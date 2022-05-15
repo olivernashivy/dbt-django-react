@@ -1,7 +1,7 @@
 from .models import ScheduleCommand, Periodictasks, ClockedTask, interval
 # import serializers
 from rest_framework import serializers
-
+from celery import current_app
 
 class ScheduleCommandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,9 +21,12 @@ class Periodictasksserializer(serializers.ModelSerializer):
     # show all commands from many to many
     command = ScheduleCommandSerializer(required=False)
     interval = IntervalSerializer(required=False)
+     
+
     class Meta:
         model = Periodictasks
         fields = ('id','name','command','interval','status', 'description')
+    
 
     def to_internal_value(self, data):
         # get nested objects
