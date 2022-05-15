@@ -1,0 +1,14 @@
+jaffle_shop:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: zg31343.west-us-2.azure
+      user: DBT_CLOUD_USER
+      password: Password123
+      role: TRANSFORM_ROLE
+      database: analytics
+      warehouse: TRANSFORM_WH
+      schema: dbt
+      threads: 1
+      client_session_keep_alive: False
