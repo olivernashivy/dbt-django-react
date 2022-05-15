@@ -2,6 +2,7 @@ agate==1.6.3
 amqp==5.1.1
 asgiref==3.5.0
 asn1crypto==1.5.1
+async-timeout==4.0.2
 attrs==21.4.0
 Babel==2.10.1
 backports.zoneinfo==0.2.1
@@ -22,6 +23,7 @@ dbt-core==1.0.5
 dbt-extractor==0.4.1
 dbt-snowflake==1.0.1
 defusedxml==0.7.1
+Deprecated==1.2.13
 Django==3.2.13
 django-celery-beat==2.2.1
 django-cors-headers==3.11.0
@@ -29,17 +31,18 @@ django-enumchoicefield==3.0.0
 django-templated-mail==1.1.1
 django-timezone-field==4.2.3
 djangorestframework==3.13.1
-#djangorestframework-simplejwt==5.1.0
+djangorestframework-simplejwt==4.8.0
 djoser==2.1.0
-gunicorn==20.0.4
 future==0.18.2
 gevent==21.12.0
 greenlet==1.1.2
+gunicorn==20.0.4
 hologram==0.0.14
 idna==3.3
 importlib-metadata==4.11.3
 isodate==0.6.1
 itypes==1.2.0
+jeepney==0.8.0
 Jinja2==2.11.3
 jsonschema==3.1.1
 keyring==23.5.0
@@ -71,8 +74,10 @@ pytimeparse==1.1.8
 pytz==2022.1
 pywin32-ctypes==0.2.0
 PyYAML==6.0
+redis==4.3.1
 requests==2.27.1
 requests-oauthlib==1.3.1
+SecretStorage==3.3.2
 six==1.16.0
 snowflake-connector-python==2.7.6
 social-auth-app-django==4.0.0
@@ -86,6 +91,7 @@ urllib3==1.26.9
 vine==5.0.0
 wcwidth==0.2.5
 Werkzeug==2.1.1
+wrapt==1.14.1
 zipp==3.8.0
 zope.event==4.5.0
 zope.interface==5.4.0
