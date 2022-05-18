@@ -30,13 +30,13 @@ function Addcommand() {
       {errors.name && <span className='text-danger'>This field is required</span>}
       </div>
       <div className="mb-3">
-      <label htmlFor="description" className="form-label">Descripotion</label>
+      <label htmlFor="description" className="form-label">Description</label>
       <input  {...register("description", { required: true })} type="text" className="form-control" id="description" placeholder="description"/>
       {errors.description && <span className='text-danger'>This field is required</span>}
       </div>
 
       <div className="mb-3">
-      <label htmlFor="command" className="form-label">Descripotion</label>
+      <label htmlFor="command" className="form-label">command</label>
       <input  {...register("command", { required: true })} type="text" className="form-control" id="command" placeholder="type the command"/>
       {errors.command && <span className='text-danger'>This field is required</span>}
       </div>

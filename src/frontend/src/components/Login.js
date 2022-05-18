@@ -15,8 +15,7 @@ function Login() {
                 localStorage.setItem('token', res.data.auth_token)
                 window.location.href = '/'
             } else {
-            
-              
+        
                 
                     seterror('Invalid token')
                 
@@ -24,9 +23,6 @@ function Login() {
         }
         ).catch(err => {
             console.log(err)
-            if(err.response.data.non_field_errors){
-                seterror(err.response.data.non_field_errors[0])
-            }
             if(err.response.data.detail){
                 seterror(err.response.data.detail)
             }

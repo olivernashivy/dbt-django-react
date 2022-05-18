@@ -89,10 +89,12 @@ def run_periodic_task(periodic_task_id):
         print('Runnng command: ' + command_text.command)
         # get current path
         current_path = os.path.dirname(os.path.abspath(__file__))
+        print(current_path)
         # goes back 4 folders
         path_dbt = os.path.abspath(os.path.join(current_path, os.pardir, os.pardir, os.pardir))
         # from path_dbt cd into jaffle_shop folder
         path_dbt = os.path.join(path_dbt, 'jaffle_shop')
+        print(path_dbt)
         try:
             # run command inside path_dbt
             if command_task:

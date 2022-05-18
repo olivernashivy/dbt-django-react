@@ -24,7 +24,7 @@ function App() {
     // get token from local storage
     const token = localStorage.getItem('token')
     const fetchuser = async () => {
-        if (token !== null||token!==undefined) {
+        if (token !== null ) {
 
             await axios.get(`${baseUrl}/auth/users/me/`, {
                 headers: {
@@ -37,17 +37,21 @@ function App() {
             }
             ).catch(err => {
                 console.log(err)
+
             }
             )
         }
-        else {
-            setisAuthenticated(false)
-
-            window.location.href = '/login'
-        }
+   
     }
     useEffect(() => {
+       if(token !== null ){
         fetchuser()
+       }
+       if(token === null && window.location.pathname !== '/login'){
+       // go to login
+       //current window location
+         window.location.pathname = '/login'
+       }
     }, [])
 
     const logout = () => {

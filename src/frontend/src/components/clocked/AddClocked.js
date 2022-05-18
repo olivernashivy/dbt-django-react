@@ -46,17 +46,19 @@ function AddClocked() {
       {errors.name && <span className='text-danger'>This field is required</span>}
       </div>
       <div className="mb-3">
-      <label htmlFor="description" className="form-label">Descripotion</label>
+      <label htmlFor="description" className="form-label">Description</label>
       <input  {...register("description", { required: true })} type="text" className="form-control" id="description" placeholder="description"/>
       {errors.description && <span className='text-danger'>This field is required</span>}
       </div>
 
       <div className="mb-3">
-      <label htmlFor="timetorun" className="form-label">Descripotion</label>
+      <label htmlFor="timetorun" className="form-label"></label>
       <input  {...register("timetorun", { required: true })} type="datetime-local" className="form-control" id="timetorun" placeholder="time to run"/>
       {errors.timetorun && <span className='text-danger'>This field is required</span>}
       </div>
    {/* multi command select */}
+      <div className="mb-3">
+      <label htmlFor="command" className="form-label">Command</label>
    <select multiple="multiple"  {...register("command")} className="form-select" aria-label=" select examultiple commandsple">
             {commands.map((command, index) => {
               return (
@@ -64,6 +66,8 @@ function AddClocked() {
               )
             })}
         </select>
+      {errors.command && <span className='text-danger'>This field is required</span>}
+      </div>
       <div className="d-flex justify-content-end my-3">
           <button type="submit" className="btn btn-dark">Save </button>
         </div>

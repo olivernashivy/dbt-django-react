@@ -32,9 +32,11 @@ else
     docker-compose up -d
 fi
 
+# moment was not being fund in packages
+docker-compose exec builder npm install moment
 # build assets
-docker-compose exec builder npm run generate
+docker-compose exec builder npm run build
 
 # setup database and gather assets; make sure we run this _after_ building frontend assets
-docker-compose exec django ./manage.py collectstatic --noinput
-docker-compose exec django ./manage.py migrate
+docker-compose exec django python ./manage.py collectstatic --noinput
+docker-compose exec django python ./manage.py migrate
