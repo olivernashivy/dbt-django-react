@@ -89,6 +89,4 @@ admin.site.register(ScheduleCommand)
 admin.site.register( Periodictasks, PeriodictasksCustomAdmin)
 admin.site.register(ClockedTask)
 admin.site.register(interval)
-admin.site.register(RegisteredTasks, RegisteredTasksAdmin)
-
 ADMIN_SITE_HEADER = 'Schedules'

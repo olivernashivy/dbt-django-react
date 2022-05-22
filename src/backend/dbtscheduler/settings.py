@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-w$f5^wq)4k5nwti56(cm4l60^*ih+cbzj_epplgvo-e5^@^=k8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0", "localhost","127.0.0.1"] 
 
@@ -144,7 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # =============================================================================
 USE_CELERY_QUEUE = True
 # CELERY_BROKER_URL = "http://localhost:6379"
-CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_BROKER_URL = "redis://127.0.0.1:6379"
 CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_BROKER_POOL_LIMIT = 100
 CELERY_BROKER_CONNECTION_TIMEOUT = 1000

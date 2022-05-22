@@ -1,0 +1,19 @@
+FROM fishtownanalytics/dbt:1.0.0
+# copy jaffle_shop folder to /app
+ADD jaffle_shop /app
+
+#mkdir .dbt in root
+RUN mkdir /root/.dbt
+# copy profile.yml from local pc to folder  .dbt
+
+
+ADD jaffle_shop/profiles.yml /root/.dbt
+
+
+
+
+
+
+
+
+
