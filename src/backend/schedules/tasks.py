@@ -13,8 +13,10 @@ def run_all_available_comands():
     current_path = os.path.dirname(os.path.abspath(__file__))
     # goes back 4 folders
     path_dbt = os.path.abspath(os.path.join(current_path, os.pardir, os.pardir, os.pardir))
+    print(path_dbt)
     # from path_dbt cd into jaffle_shop folder
     path_dbt = os.path.join(path_dbt, 'jaffle_shop')
+    print(path_dbt)
     try:
         for command in ScheduleCommand.objects.all():
             # run command inside path_dbt
@@ -56,17 +58,19 @@ def run_clocked_task(periodic_task_id):
     if periodic_task:
         # get all commands from many to many
         command_text = periodic_task.command.all()
-        print('Running periodic task: ' + periodic_task.name)
+        print('Running Clocked task: ' + periodic_task.name)
         # get current path
         current_path = os.path.dirname(os.path.abspath(__file__))
         # goes back 4 folders
-        path_dbt = os.path.abspath(os.path.join(current_path, os.pardir, os.pardir, os.pardir))
+        path_dbt = os.path.abspath(os.path.join(current_path, os.pardir))
+        print(path_dbt)
         # from path_dbt cd into jaffle_shop folder
         path_dbt = os.path.join(path_dbt, 'jaffle_shop')
+        print(path_dbt)
         try:
             # run command inside path_dbt
             for command in command_text:
-                os.system('cd ' + path_dbt + ' && ' + command.command)
+                os.system(command.command + ' --project-dir jaffle_shop')
                 print(command.command)
                 print('Command executed successfully')
         except Exception as e:
@@ -98,7 +102,7 @@ def run_periodic_task(periodic_task_id):
         try:
             # run command inside path_dbt
             if command_task:
-                os.system('cd ' + path_dbt + ' && ' + command_text.command)
+                os.system(command_text.command +' --project-dir jaffle_shop')
                 print(command_text)
                 print('Command executed successfully')
         except Exception as e:

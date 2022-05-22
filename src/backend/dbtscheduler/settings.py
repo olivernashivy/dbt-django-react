@@ -144,7 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # =============================================================================
 USE_CELERY_QUEUE = True
 # CELERY_BROKER_URL = "http://localhost:6379"
-CELERY_BROKER_URL = "redis://127.0.0.1:6379"
+CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_BROKER_POOL_LIMIT = 100
 CELERY_BROKER_CONNECTION_TIMEOUT = 1000

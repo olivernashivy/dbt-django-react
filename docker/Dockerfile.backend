@@ -1,6 +1,6 @@
 FROM python:3.9.1
 
-RUN apt-get update && apt-get install -yy gcc build-essential python-setuptools graphviz libgraphviz-dev
+RUN apt-get update && apt-get install -yy gcc build-essential python-setuptools graphviz vim libgraphviz-dev
 
 ENV PYTHONUNBUFFERED 1
 
@@ -9,6 +9,13 @@ RUN pip install -r requirements.txt
 
 # Install inotify for gunicorn to nicely reload things..
 RUN apt-get update && apt-get install -y inotify-tools gdal-bin
+
+ADD jaffle_shop /app
+# create folder .dbt in /root
+RUN mkdir /root/.dbt
+
+# add profiles.yml to /root/.dbt
+ADD jaffle_shop/profiles.yml /root/.dbt/profiles.yml
 
 WORKDIR /app
 
