@@ -66,7 +66,7 @@ def run_clocked_task(periodic_task_id):
         try:
             # run command inside path_dbt
             for command in command_text:
-                #os.system('cd ' + path_dbt + ' && ' + command.command)
+                os.system('cd ' + path_dbt + ' && ' + command.command)
                 print(command.command)
                 print('Command executed successfully')
         except Exception as e:
